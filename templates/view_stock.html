@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Stock Levels{% endblock %}
+{% block content %}
+
+<main class="container mt-4">
+    <h2 class="text-center">Current Stock Levels</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Stock (Kg/L)</th>
+                <th>Drums</th>
+                <th>Bags</th>
+                <th>Jerrycans</th>
+                <th>Expiry Date</th>
+                <th>Documents</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventory in inventories %}
+            <tr>
+                <td>{{ inventory.product_name }}</td>
+                <td>{{ inventory.product_type }}</td>
+                <td>{{ inventory.quantity_kg }}</td>
+                <td>{{ inventory.drums }}</td>
+                <td>{{ inventory.bags }}</td>
+                <td>{{ inventory.jerrycans }}</td>
+                <td class="{% if inventory.expiry_date < today %}text-danger{% endif %}">
+                    {{ inventory.expiry_date }}
+                </td>
+                <td>
+                    {% if inventory.msds_path %}
+                        <a href="{{ url_for('download_file', filename=inventory.msds_path) }}" class="btn btn-sm btn-info">MSDS</a>
+                    {% endif %}
+                    {% if inventory.coa_path %}
+                        <a href="{{ url_for('download_file', filename=inventory.coa_path) }}" class="btn btn-sm btn-warning">COA</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+{% endblock %}

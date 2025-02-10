@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "bootstrap5/form.html" import render_form %}
+
+{% block title %}Add Stock{% endblock %}
+
+{% block content %}
+
+
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/chemical-bg.jpeg') }}')">
+    <div class="container position-relative">
+        <h1 class="text-center text-white">Add Stock</h1>
+        <p class="text-center text-light">Record received stock and update inventory.</p>
+    </div>
+</header>
+
+<main class="container mt-4">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <div class="card shadow p-4">
+                <h4 class="text-center">Stock Entry</h4>
+                {{ render_form(form, novalidate=True, button_map={"submit": "success"}) }}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

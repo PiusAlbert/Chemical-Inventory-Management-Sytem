@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Manage Products{% endblock %}
+{% block content %}
+
+<main class="container mt-4">
+    <h2 class="text-center">Product Management</h2>
+    <a href="{{ url_for('add_stock') }}" class="btn btn-success mb-3">Add Stock</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Stock (Kg/L)</th>
+                <th>Drums</th>
+                <th>Bags</th>
+                <th>Jerrycans</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventory in inventories %}
+            <tr>
+                <td>{{ inventory.product_name }}</td>
+                <td>{{ inventory.product_type }}</td>
+                <td>{{ inventory.quantity_kg }}</td>
+                <td>{{ inventory.drums }}</td>
+                <td>{{ inventory.bags }}</td>
+                <td>{{ inventory.jerrycans }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+{% endblock %}

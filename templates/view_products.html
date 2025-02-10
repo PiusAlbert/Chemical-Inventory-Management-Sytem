@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Registered Products{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Registered Products</h1>
+    
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Product List</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Origin Country</th>
+                        <th>Manufacturer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.product_type }}</td>
+                        <td>{{ product.origin_country }}</td>
+                        <td>{{ product.manufacturer_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

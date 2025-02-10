@@ -1,0 +1,9 @@
+<footer class="footer bg-dark text-white text-center py-3 mt-4">
+    <p>&copy; <span id="year"></span> Procell Chemical Management System. All Rights Reserved.</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("year").innerText = new Date().getFullYear();
+    });
+</script>

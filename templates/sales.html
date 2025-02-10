@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Sales Transactions{% endblock %}
+{% block content %}
+
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/sales-bg.jpg') }}')">
+    <div class="container position-relative">
+        <h1 class="text-center text-white">Sales Transactions</h1>
+        <p class="text-center text-light">Record & Manage Sales</p>
+    </div>
+</header>
+
+<main class="container mt-4">
+    <form method="POST" class="mb-4">
+        <div class="mb-3">
+            <label for="inventory">Product</label>
+            <select name="inventory_id" class="form-control" required>
+                {% for inventory in inventories %}
+                <option value="{{ inventory.id }}">
+                    {{ inventory.product_name }} - Available: {{ inventory.quantity_kg }} KG/L
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="client_name">Client Name</label>
+            <input type="text" name="client_name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="quantity_sold">Quantity Sold (Kg/L)</label>
+            <input type="number" step="0.01" name="quantity_sold" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="selling_price">Selling Price</label>
+            <input type="number" step="0.01" name="selling_price" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Record Sale</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Client</th>
+                <th>Quantity Sold</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.inventory.product_name }}</td>
+                <td>{{ sale.client_name }}</td>
+                <td>{{ sale.quantity_sold }}</td>
+                <td>${{ sale.selling_price }}</td>
+                <td>{{ sale.sale_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+{% endblock %}

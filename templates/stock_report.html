@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Stock Report{% endblock %}
+{% block content %}
+<main class="container mt-4">
+    <h2 class="text-center">Stock Report</h2>
+
+    <form method="POST" class="mb-3">
+        <label>Select Date:</label>
+        <input type="date" name="report_date" value="{{ selected_date }}" class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Generate Report</button>
+    </form>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ url_for('download_stock_report_pdf') }}" class="btn btn-danger me-2">Download PDF</a>
+        <a href="{{ url_for('download_stock_report_excel') }}" class="btn btn-success">Download Excel</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Stock (Kg/L)</th>
+                <th>Drums</th>
+                <th>Bags</th>
+                <th>Jerrycans</th>
+                <th>Expiry Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stock_data %}
+            <tr>
+                <td>{{ stock.product_name }}</td>
+                <td>{{ stock.quantity_kg }}</td>
+                <td>{{ stock.drums }}</td>
+                <td>{{ stock.bags }}</td>
+                <td>{{ stock.jerrycans }}</td>
+                <td>{{ stock.expiry_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

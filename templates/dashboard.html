@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Dashboard</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Total Products</h5>
+                <p class="display-6">{{ product_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Total Sales</h5>
+                <p class="display-6">{{ sales_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Low Stock Alerts</h5>
+                <p class="display-6 text-danger">{{ low_stock_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Section for Actions -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <a href="{{ url_for('register_product') }}" class="btn btn-primary btn-block">Register Product</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('add_stock') }}" class="btn btn-secondary btn-block">Add Stock</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('view_stock') }}" class="btn btn-info btn-block">View Stock</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('view_products') }}" class="btn btn-success btn-block">View Registered Products</a> <!-- New Button -->
+    </div>
+</div>
+
+<!-- Stock Table -->
+<h3 class="mt-4 stock-header">Current Stock Levels</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Type</th>
+            <th>Stock Level</th>
+        </tr>
+    </thead>
+    <tbody id="stock-table-body">
+        {% for inventory in inventories %}
+        <tr>
+            <td>{{ inventory.product_name }}</td>
+            <td>{{ inventory.product_type }}</td>  <!-- Adjust according to your model -->
+            <td>{{ inventory.quantity_kg }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<canvas id="stockChart"></canvas>
+
+<script>
+    fetch('/api/stock-levels')
+        .then(response => response.json())
+        .then(data => {
+            let ctx = document.getElementById('stockChart').getContext('2d');
+            let stockChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(item => item.type),
+                    datasets: [{
+                        label: 'Stock Levels',
+                        data: data.map(item => item.stock),
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true }
+            });
+        })
+        .catch(error => console.error("Error loading stock levels:", error));
+</script>
+
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+{% endblock %}
