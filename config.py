@@ -10,7 +10,7 @@ class Config:
     # Database Configuration
     DB_USER = os.environ.get('DB_USER')
     DB_PASSWORD = os.environ.get('DB_PASSWORD')
-    DB_HOST = os.environ.get('DB_HOST', 'localhost')
+    DB_HOST = os.environ.get('DB_HOST')
     DB_NAME = os.environ.get('DB_NAME')
 
     # PostgreSQL Connection String
